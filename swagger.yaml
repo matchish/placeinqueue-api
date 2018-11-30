@@ -1,0 +1,299 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: PlaceInQueue
+  license:
+    name: MIT
+  contact: {}
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /queues:
+    get:
+      summary: List all queues
+      operationId: listQueues
+      tags:
+        - queues
+      parameters: []
+      responses:
+        '200':
+          description: An array of queues
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Queue'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Create a queue
+      operationId: createQueue
+      tags:
+        - queues
+      responses:
+        '201':
+          description: Return a new queue
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Queue'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewQueue'
+  '/queue/{queueId}':
+    get:
+      summary: Info for a specific queue
+      operationId: showQueueById
+      tags:
+        - queues
+      parameters:
+        - name: queueId
+          in: path
+          required: true
+          description: The id of the queue to retrieve
+          schema:
+            type: string
+      responses:
+        200:
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Queue'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Update queue
+      description: ''
+      tags:
+        - queues
+      parameters:
+        - name: queueId
+          in: path
+          required: true
+          description: The id of the queue to retrieve
+          schema:
+            type: string
+      operationId: updateQueue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Queue'
+      responses:
+        202:
+          description: queue updated
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Delete queue
+      description: ''
+      tags:
+        - queues
+      parameters:
+        - name: queueId
+          in: path
+          required: true
+          description: The id of the queue to retrieve
+          schema:
+            type: string
+      operationId: deleteQueue
+      responses:
+        204:
+          description: Queue deleted
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/queue/{queueId}/places':
+    get:
+      summary: List all places of queue
+      parameters:
+        - name: queueId
+          in: path
+          required: true
+          description: The id of the queue to retrieve places
+          schema:
+            type: string
+      operationId: 'listPlacesForQueue'
+      tags:
+        - queues
+        - places
+      responses:
+        '200':
+          description: An array of places
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Place'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/place/{placeId}':
+    post:
+      summary: Update place
+      tags:
+        - places
+      description: ''
+      parameters:
+        - name: placeId
+          in: path
+          required: true
+          description: The id of the place
+          schema:
+            type: string
+      operationId: 'updatePlace'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Place'
+      responses:
+        202:
+          description: place updated
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/place/{placeId}/heartbeat':
+    post:
+      summary: Browser heartbeat
+      tags:
+        - places
+      parameters:
+        - name: placeId
+          in: path
+          required: true
+          description: The id of the place
+          schema:
+            type: string
+      operationId: 'heartbeat'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Heartbeat'
+      responses:
+        202:
+          description: heartbeat registered
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    Queue:
+      type: object
+      required:
+        - id
+        - title
+        - datetime
+        - url
+        - places
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        datetime:
+          type: string
+        url:
+          type: string
+        places:
+          type: integer
+          format: int64
+    NewQueue:
+      type: object
+      required:
+        - title
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        datetime:
+          type: string
+        url:
+          type: string
+        places:
+          type: integer
+          format: int64
+    Place:
+      type: object
+      required:
+        - id
+        - used
+        - useragent
+      properties:
+        id:
+          type: integer
+          format: int64
+        used:
+          type: boolean
+        proxy:
+          type: string
+        url:
+          type: string
+        useragent:
+          type: string
+        number:
+          type: integer
+          format: int64
+    HeartBeat:
+      type: object
+      required:
+        - datetime
+      properties:
+        datetime:
+          type: string
+  links: {}
+  callbacks: {}
+security: []
+tags:
+  - name: queue
+  - name: place

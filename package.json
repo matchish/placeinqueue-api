@@ -1,0 +1,22 @@
+{
+  "name": "place-in-queue",
+  "description": "",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node src/bin/www",
+    "init": "npm install",
+    "migrate": "node src/db/migrations/init.js",
+    "dev": "node src/bin/www | bunyan"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.366.0",
+    "body-parser": "1.13.2",
+    "bunyan": "1.5.1",
+    "cookie-parser": "1.3.5",
+    "cors": "^2.8.5",
+    "express": "4.13.1",
+    "moment": "^2.22.2",
+    "node-yaml-config": "0.0.3",
+    "promise-mysql": "^3.3.1"
+  }
+}
