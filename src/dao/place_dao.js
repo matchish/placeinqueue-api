@@ -31,7 +31,15 @@ module.exports = class PlaceDao {
         try {
             await con.query("START TRANSACTION");
             await con.query(queries.update_place, [
-                entity.used, entity.number, entity.url, entity.proxy, entity.useragent, entity.cookies, entity.id
+                entity.used,
+                entity.number,
+                entity.remote_id,
+                entity.url,
+                entity.proxy,
+                entity.useragent,
+                entity.cookies,
+                entity.heartbeat_at ? moment(entity.heartbeat_at).format("YYYY-MM-DD HH:mm:ss") : null,
+                entity.id
             ]);
             await con.query("COMMIT");
             return true;

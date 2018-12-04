@@ -8,12 +8,11 @@ const router = new express.Router();
  */
 router.post('/:placeId', async (req, res, next) => {
     const options = {
-        ...req.body, id: req.params.placeId
+        ...req.body, id: parseInt(req.params.placeId)
     };
-
     try {
-        const result = await place.updatePlace(options);
-        res.status(result.status || 200).send(result.data);
+        let result = await place.updatePlace(options);
+        return res.status(result.status).send();
     } catch (err) {
         return res.status(500).send({
             code: 500,
