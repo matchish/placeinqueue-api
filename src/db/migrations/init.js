@@ -21,6 +21,7 @@ const dbConnection = require("../dbConnection");
             '( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , ' +
             '`used` BOOLEAN NOT NULL DEFAULT FALSE , ' +
             '`url` TEXT NULL , ' +
+            '`remote_id` TEXT NULL , ' +
             '`proxy` JSON NOT NULL DEFAULT \'{}\' , ' +
             '`useragent` TEXT NULL , ' +
             '`cookies` JSON NOT NULL DEFAULT \'{}\' , ' +
