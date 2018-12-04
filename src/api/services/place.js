@@ -15,17 +15,3 @@ module.exports.updatePlace = async (options) => {
   };
 };
 
-/**
- * @param {Object} options
- * @param {String} options.placeId The id of the place
- * @throws {Error}
- * @return {Promise}
- */
-module.exports.registerHeartBeat = async (options) => {
-  await placeDao.registerHeartBeat(options.id, options.datetime)
-
-  return {
-    status: 202,
-  };
-};
-
