@@ -186,33 +186,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  '/place/{placeId}/heartbeat':
-    post:
-      summary: Browser heartbeat
-      tags:
-        - places
-      parameters:
-        - name: placeId
-          in: path
-          required: true
-          description: The id of the place
-          schema:
-            type: string
-      operationId: 'heartbeat'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Heartbeat'
-      responses:
-        202:
-          description: heartbeat registered
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
 components:
   schemas:
     Error:
