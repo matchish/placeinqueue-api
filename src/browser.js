@@ -7,9 +7,6 @@ const queueDao = new QueueDao();
 const placeDao = new PlaceDao();
 const moment = require("moment")
 
-// setInterval(() => {
-// }, 60000)
-//
 async function upBrowsers() {
     try {
         let queues = await queueDao.readEntities()
@@ -46,4 +43,6 @@ async function upBrowsers() {
     }
 }
 
-upBrowsers()
+setInterval(upBrowsers, 15000)
+
+
