@@ -1,10 +1,10 @@
 const mysql = require('promise-mysql');
 
 const dbConfig = {
-    user: "matchish",
-    password: "pass",
-    database: "default",
-    host: "db",
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
+    host: process.env.MYSQL_HOST,
     connectionLimit: 10
 }
 
