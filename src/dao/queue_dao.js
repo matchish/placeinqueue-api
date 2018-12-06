@@ -17,6 +17,7 @@ module.exports = class QueueDao {
                 queries.insert_queue,
                 [entity.title, moment(entity.datetime).format("YYYY-MM-DD HH:mm:ss"), entity.url, entity.places, entity.prestart]
             );
+            entity.id = savedQueue.insertId;
             for (let i = 0; i < entity.places; i++) {
                 await con.query(
                     queries.insert_place,
@@ -24,7 +25,6 @@ module.exports = class QueueDao {
                 );
             }
             await con.query("COMMIT");
-            entity.id = savedQueue.insertId;
             return entity;
         } catch (ex) {
             await con.query("ROLLBACK");
