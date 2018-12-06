@@ -7,6 +7,10 @@ const moment = require('moment')
 module.exports = class QueueDao {
     async saveEntity(entity) {
         let con = await dbConnection();
+        // TODO dry
+        if (entity.places > process.env.MAX_PLACES) {
+            throw new Error(`Max number of places is ${process.env.MAX_PLACES}`);
+        }
         try {
             await con.query("START TRANSACTION");
             let savedQueue = await con.query(
@@ -35,6 +39,10 @@ module.exports = class QueueDao {
     async updateEntity(entity) {
         let con = await dbConnection();
         try {
+            // TODO dry
+            if (entity.places > process.env.MAX_PLACES) {
+                throw new Error(`Max number of places is ${process.env.MAX_PLACES}`);
+            }
             await con.query("START TRANSACTION");
             await con.query(queries.update_queue, [
                 entity.title,
