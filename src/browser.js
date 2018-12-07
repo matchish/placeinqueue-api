@@ -22,7 +22,8 @@ async function upBrowsers() {
                                 id: place.id,
                                 queue_id: queue.id,
                                 url: queue.url,
-                                heartbeat_url: `${process.env.API_URL}/place/${place.id}/heartbeat`
+                                cookies: place.cookies,
+                                callback: `${process.env.API_URL}/place/${place.id}`
                             }),
                             QueueUrl: "https://sqs.us-east-1.amazonaws.com/231818033401/placeinqueue"
                         };
