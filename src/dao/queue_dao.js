@@ -8,7 +8,7 @@ module.exports = class QueueDao {
     async saveEntity(entity) {
         let con = await dbConnection();
         // TODO dry
-        if (entity.places > process.env.MAX_PLACES) {
+        if (parseInt(entity.places) > parseInt(process.env.MAX_PLACES)) {
             throw new Error(`Max number of places is ${process.env.MAX_PLACES}`);
         }
         try {
@@ -40,7 +40,7 @@ module.exports = class QueueDao {
         let con = await dbConnection();
         try {
             // TODO dry
-            if (entity.places > process.env.MAX_PLACES) {
+            if (parseInt(entity.places) > parseInt(process.env.MAX_PLACES)) {
                 throw new Error(`Max number of places is ${process.env.MAX_PLACES}`);
             }
             await con.query("START TRANSACTION");
