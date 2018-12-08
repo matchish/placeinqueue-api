@@ -25,7 +25,7 @@ async function upBrowsers() {
                                 cookies: place.cookies,
                                 callback: `${process.env.API_URL}/place/${place.id}`
                             }),
-                            QueueUrl: process.env.SQS_URL
+                            QueueUrl: process.env.AWS_SQS_URL
                         };
 
                         sqs.sendMessage(params, function (err, data) {
