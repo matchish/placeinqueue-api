@@ -24,7 +24,7 @@ const dbConnection = require("../dbConnection");
             '`remote_id` TEXT NULL , ' +
             '`proxy` JSON NOT NULL DEFAULT \'{}\' , ' +
             '`useragent` TEXT NULL , ' +
-            '`cookies` JSON NOT NULL DEFAULT \'{}\' , ' +
+            '`cookies` JSON NOT NULL DEFAULT \'[]\' , ' +
             '`number` INT UNSIGNED NULL , ' +
             'queue_id INT UNSIGNED NOT NULL, ' +
             '`heartbeat_at` DATETIME NULL , ' +
