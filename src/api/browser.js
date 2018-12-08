@@ -1,8 +1,8 @@
 const AWS = require('aws-sdk');
 AWS.config.update({region: 'us-east-1'});
 const sqs = new AWS.SQS({apiVersion: '2012-11-05'});
-const QueueDao = require("./dao/queue_dao");
-const PlaceDao = require("./dao/place_dao");
+const QueueDao = require("../dao/queue_dao");
+const PlaceDao = require("../dao/place_dao");
 const queueDao = new QueueDao();
 const placeDao = new PlaceDao();
 const moment = require("moment")
