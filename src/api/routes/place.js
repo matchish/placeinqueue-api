@@ -16,7 +16,7 @@ router.post('/:placeId', async (req, res, next) => {
     } catch (err) {
         return res.status(500).send({
             code: 500,
-            error: err.message
+            message: err.message
         });
     }
 });

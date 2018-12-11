@@ -17,7 +17,7 @@ router.get('/:queueId', async (req, res, next) => {
   } catch (err) {
     return res.status(500).send({
       code: 500,
-      error: 'Server Error'
+      message: err.message
     });
   }
 });
@@ -35,7 +35,7 @@ router.post('/:queueId', async (req, res, next) => {
   } catch (err) {
     return res.status(500).send({
       code: 500,
-      error: err.message
+      message: err.message
     });
   }
 });
@@ -54,7 +54,7 @@ router.delete('/:queueId', async (req, res, next) => {
   } catch (err) {
     return res.status(500).send({
       code: 500,
-      error: 'Server Error'
+      message: err.message
     });
   }
 });
@@ -73,7 +73,7 @@ router.get('/:queueId/places', async (req, res, next) => {
   } catch (err) {
     return res.status(500).send({
       code: 500,
-      error: err.message
+      message: err.message
     });
   }
 });
