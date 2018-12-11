@@ -87,19 +87,4 @@ module.exports = class PlaceDao {
         }
     }
 
-    async registerHeartBeat(id, datetime) {
-        let con = await dbConnection();
-        try {
-            await con.query("START TRANSACTION");
-            await con.query(queries.place_register_heartbeat, [moment(datetime).format("YYYY-MM-DD HH:mm:ss"), id]);
-            await con.query("COMMIT");
-        } catch (ex) {
-            console.log(ex);
-            throw ex;
-        } finally {
-            await con.release();
-            await con.destroy();
-        }
-    }
-
 };
