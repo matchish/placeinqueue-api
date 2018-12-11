@@ -11,8 +11,8 @@ async function upBrowsers() {
     try {
         let queues = await queueDao.readEntities()
         queues.forEach(async (queue) => {
-            if (moment().isBetween(moment().subtract(queue.prestart, 'minutes'), moment(queue.datetime))) {
-            console.log(moment().subtract(queue.prestart, 'minutes'), moment(), moment(queue.datetime).add(process.env.BROWSER_SHUTDOWN_WAIT, 'minutes'))
+            if (moment().isBetween(moment().subtract(queue.prestart, 'minutes'), moment(queue.datetime).add(process.env.BROWSER_SHUTDOWN_WAIT, 'minutes'))) {
+                console.log(moment().subtract(queue.prestart, 'minutes'), moment(), moment(queue.datetime).add(process.env.BROWSER_SHUTDOWN_WAIT, 'minutes'))
                 let places = await placeDao.readEntitiesByQueueId(queue.id)
                 places.forEach((place) => {
                     //TODO magic constant
