@@ -15,7 +15,7 @@ async function upBrowsers() {
                 let places = await placeDao.readEntitiesByQueueId(queue.id)
                 places.forEach((place) => {
                     //TODO magic constant
-                    if (!place.heartbeat_at || moment(place.heartbeat_at).isBefore(moment().subtract(1, 'minutes'))) {
+                    if (!place.url && (!place.heartbeat_at || moment(place.heartbeat_at).isBefore(moment().subtract(1, 'minutes')))) {
                         var params = {
                             DelaySeconds: 0,
                             MessageBody: JSON.stringify({
