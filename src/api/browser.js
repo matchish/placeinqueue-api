@@ -20,6 +20,7 @@ const moment = require("moment")
                         }
                         //TODO magic constant
                         if (!place.heartbeat_at || moment(place.heartbeat_at).isBefore(moment().subtract(1, 'minutes'))) {
+                            console.log(place)
                             var params = {
                                 DelaySeconds: 0,
                                 MessageBody: JSON.stringify({
