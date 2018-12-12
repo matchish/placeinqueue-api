@@ -11,11 +11,11 @@ const moment = require("moment")
     while (true) {
         try {
             let queues = await queueDao.readEntities()
-            queues.forEach(async (queue) => {
+            await Promise.all(queues.map(async (queue) => {
                 console.log(moment().toISOString() ,moment(queue.datetime).subtract(queue.prestart, 'minutes'), moment(queue.datetime).add(process.env.BROWSER_SHUTDOWN_WAIT, 'minutes'))
                 if (moment().isBetween(moment(queue.datetime).subtract(queue.prestart, 'minutes'), moment(queue.datetime).add(process.env.BROWSER_SHUTDOWN_WAIT, 'minutes'))) {
                     let places = await placeDao.readEntitiesByQueueId(queue.id)
-                    await Promise.all(places.map((place) => {
+                    return Promise.all(places.map((place) => {
                         return new Promise((resolve) => {
                             if (place.url !== undefined) {
                                 resolve()
@@ -48,7 +48,7 @@ const moment = require("moment")
                         })
                     }))
                 }
-            })
+            }))
         } catch (e) {
             console.log(e.message)
         }
