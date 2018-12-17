@@ -1,45 +1,54 @@
-const dbConnection = require("../dbConnection");
+var AWS = require("aws-sdk");
 
-;(async () => {
-    let con = await dbConnection();
+AWS.config.update({
+    region: process.env.AWS_REGION,
+    endpoint: process.env.AWS_DYNAMODB_ENDPOINT
+});
 
-    try {
-        await con.query("START TRANSACTION");
-        await con.query(
-            'CREATE TABLE IF NOT EXISTS `default`.`queue` ( ' +
-            '`id` INT UNSIGNED NOT NULL AUTO_INCREMENT , ' +
-            '`title` VARCHAR(255) NOT NULL , `url` TEXT NOT NULL , ' +
-            '`datetime` DATETIME NOT NULL , ' +
-            '`prestart` INT UNSIGNED NOT NULL , ' +
-            '`places` INT UNSIGNED NOT NULL , ' +
-            'PRIMARY KEY (`id`), ' +
-            'UNIQUE KEY (`title`)) ENGINE = InnoDB;',
-            []
-        );
-        await con.query(
-            'CREATE TABLE IF NOT EXISTS `default`.`place` ' +
-            '( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , ' +
-            '`used` BOOLEAN NOT NULL DEFAULT FALSE , ' +
-            '`url` TEXT NULL , ' +
-            '`remote_id` TEXT NULL , ' +
-            '`proxy` JSON NOT NULL DEFAULT \'{}\' , ' +
-            '`useragent` TEXT NULL , ' +
-            '`cookies` JSON NOT NULL DEFAULT \'[]\' , ' +
-            '`number` INT UNSIGNED NULL , ' +
-            'queue_id INT UNSIGNED NOT NULL, ' +
-            '`heartbeat_at` DATETIME NULL , ' +
-            'PRIMARY KEY (`id`), ' +
-            'INDEX (`used`, `queue_id`), ' +
-            'FOREIGN KEY (queue_id) REFERENCES queue(id) ON DELETE CASCADE) ENGINE = InnoDB;',
-            []
-        );
-        await con.query("COMMIT");
-    } catch (ex) {
-        await con.query("ROLLBACK");
-        console.log(ex);
-        throw ex;
-    } finally {
-        await con.release();
-        await con.destroy();
+var dynamodb = new AWS.DynamoDB();
+
+let params = {
+    "TableName": "Queues",
+    "KeySchema": [
+        {"AttributeName": "id", "KeyType": "HASH"},
+    ],
+    "AttributeDefinitions": [
+        {"AttributeName": "id", "AttributeType": "S"},
+    ],
+    "ProvisionedThroughput": {
+        "ReadCapacityUnits": 5,
+        "WriteCapacityUnits": 5
     }
-})()
+}
+
+dynamodb.createTable(params, function(err, data) {
+    if (err) {
+        console.error("Unable to create table. Error JSON:", JSON.stringify(err, null, 2));
+    } else {
+        console.log("Created table. Table description JSON:", JSON.stringify(data, null, 2));
+    }
+});
+
+params = {
+    "TableName": "Places",
+    "KeySchema": [
+        {"AttributeName": "queue_id", "KeyType": "HASH"},
+        {"AttributeName": "id", "KeyType": "RANGE"},
+    ],
+    "AttributeDefinitions": [
+        {"AttributeName": "id", "AttributeType": "N"},
+        {"AttributeName": "queue_id", "AttributeType": "S"},
+    ],
+    "ProvisionedThroughput": {
+        "ReadCapacityUnits": 5,
+        "WriteCapacityUnits": 5
+    }
+}
+
+dynamodb.createTable(params, function(err, data) {
+    if (err) {
+        console.error("Unable to create table. Error JSON:", JSON.stringify(err, null, 2));
+    } else {
+        console.log("Created table. Table description JSON:", JSON.stringify(data, null, 2));
+    }
+});
