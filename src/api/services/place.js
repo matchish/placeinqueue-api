@@ -1,4 +1,5 @@
-const PlaceDao = require("../../dao/place_dao");
+const dao = require('placeinqueue-dao');
+const PlaceDao = dao.PlaceDao;
 const placeDao = new PlaceDao()
 
 /**
