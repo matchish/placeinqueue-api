@@ -12,11 +12,11 @@ const placeDao = new PlaceDao();
  */
 module.exports.deleteQueue = async (options) => {
 
-  await queueDao.deleteEntity(options.queueId)
+    await queueDao.deleteEntity(options.queueId)
 
-  return {
-    status: 204
-  };
+    return {
+        status: 204
+    };
 };
 
 /**
@@ -27,10 +27,10 @@ module.exports.deleteQueue = async (options) => {
  */
 module.exports.updateQueue = async (options) => {
 
-  await queueDao.updateEntity(options)
-  return {
-    status: 202
-  };
+    await queueDao.updateEntity(options)
+    return {
+        status: 202
+    };
 };
 
 /**
@@ -39,13 +39,13 @@ module.exports.updateQueue = async (options) => {
  * @throws {Error}
  * @return {Promise}
  */
-module.exports.listPlacesForQueue = async (options) => {
+module.exports.listPlacesForQueueId = async (options) => {
 
-  const queue = await queueDao.readEntity(options.queueId)
-  const places = await placeDao.readEntitiesByQueue(queue)
-  return {
-    status: 200,
-    data: places
-  };
+    const queue = await queueDao.readEntity(options.queueId)
+    const places = await placeDao.readEntitiesByQueue(queue)
+    return {
+        status: 200,
+        data: places
+    };
 };
 

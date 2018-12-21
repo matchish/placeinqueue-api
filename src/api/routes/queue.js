@@ -66,9 +66,8 @@ router.get('/:queueId/places', async (req, res, next) => {
   const options = {
     queueId: req.params.queueId
   };
-
   try {
-    const result = await queue.listPlacesForQueue(options);
+    const result = await queue.listPlacesForQueueId(options);
     res.status(result.status || 200).send(result.data);
   } catch (err) {
     return res.status(500).send({
