@@ -41,7 +41,8 @@ module.exports.updateQueue = async (options) => {
  */
 module.exports.listPlacesForQueue = async (options) => {
 
-  const places = await placeDao.readEntitiesByQueueId(options.queueId)
+  const queue = await queueDao.readEntity(options.queueId)
+  const places = await placeDao.readEntitiesByQueue(queue)
   return {
     status: 200,
     data: places
