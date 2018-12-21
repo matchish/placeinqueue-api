@@ -3,7 +3,6 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const config = require('../lib/config');
 const logger = require('../lib/logger');
-require('./browser');
 var cors = require('cors')
 
 const log = logger(config.logger);
