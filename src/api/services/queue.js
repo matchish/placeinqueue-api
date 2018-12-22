@@ -41,11 +41,14 @@ module.exports.updateQueue = async (options) => {
  */
 module.exports.listPlacesForQueueId = async (options) => {
 
-    const queue = await queueDao.readEntity(options.queueId)
-    const places = await placeDao.readEntitiesByQueue(queue)
-    return {
-        status: 200,
-        data: places
-    };
+    const queue = await queueDao.readEntity(options.queueId);
+    if (queue) {
+        const places = await placeDao.readEntitiesByQueue(queue);
+        return {
+            status: 200,
+            data: places
+        };
+    } else {
+        throw new Error("Can't find queue");
+    }
 };
-
